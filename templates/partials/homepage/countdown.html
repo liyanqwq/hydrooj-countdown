@@ -1,0 +1,44 @@
+<div class="section side nojs--hide" style="user-select: none;">
+  <div class="section__header">
+    <h1 class="section__title">咕咕倒计时 {% if payload.calendar_url %}<a id="gen-noi" class="gen-btn" style="font-size: 0.88rem;text-decoration:none!important;" href="{{ payload.calendar_url }}">NOI 日历</a>{% endif %}</h1>
+  </div>
+  {% if payload.dates %}
+  <div class="section__body typo" style="color:#444;line-height:2;" id="countdowns">
+        加载中...
+  </div>
+  {% else %}
+  <div class="section__body typo" style="color:#444;line-height:2;" id="countdowns">
+        请设置日历！
+  </div>
+  {% endif %}
+</div>
+<style>
+    .lum-lightbox.lum-open {
+    z-index: 1145141919810;
+}
+</style>
+<link href="https://cdn.jsdelivr.net/gh/imgix/luminous@2.3.5/dist/luminous-basic.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/gh/imgix/luminous@2.3.5/dist/luminous.min.js"></script>
+<script>
+    function loadCountdown(){
+        var $ = window.node_modules.$;
+        $.get('/countdown/getdate',function(res){
+            $("#countdowns").html('');
+            res.forEach(function(val){
+                $("#countdowns").append(`距 ${val.name} 还有 ${val.diff} 天<br />`); 
+            });
+        });
+        var options_noi = {
+              openTrigger: "click",
+              closeTrigger: "click",
+              closeWithEscape: true,
+              closeOnScroll: true,
+              appendToNode: document.body,
+              appendToSelector: null,
+              onClose: null,
+              includeImgixJSClass: false,
+        };
+        new Luminous(document.querySelector("#gen-noi"), options_noi);
+    }
+    window.addEventListener('load', loadCountdown, false);
+</script>
