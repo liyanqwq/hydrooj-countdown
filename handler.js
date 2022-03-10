@@ -1,8 +1,6 @@
 const { Route, Handler } = global.Hydro.service.server;
 const { PRIV } = global.Hydro.model.builtin;
-const pastebin = global.Hydro.model.pastebin;
 const system = global.Hydro.model.system;
-const { checkContent } = global.Hydro.lib.validator;
 const { NotFoundError } = global.Hydro.error;
 const { PermissionError } = global.Hydro.error;
 const yaml = require('js-yaml');
