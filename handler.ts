@@ -1,8 +1,7 @@
-const { Route, Handler } = global.Hydro.service.server;
-const { PRIV } = global.Hydro.model.builtin;
-const system = global.Hydro.model.system;
-const { NotFoundError } = global.Hydro.error;
-const { PermissionError } = global.Hydro.error;
+import { Route, Handler } from 'hydrooj/src/service/server';
+import { PERM } from 'hydrooj/src/model/builtin';
+import system from 'hydrooj/src/model/system';
+import { NotFoundError, PermissionError } from 'hydrooj/src/error';
 const yaml = require('js-yaml');
 const moment = require('moment');
 class CountdownGetDateHandler extends Handler {
