@@ -4,13 +4,20 @@
 
 ## Installation
 
-克隆本项目，执行 `yarn`，添加到 Hydro 插件。
+1. 安装命令：
 
-进入 HydroOJ 控制面板 - hydrooj - 主页，将下方配置信息粘贴到适当位置。
+```bash
+yarn global add hydrooj-countdown
+hydrooj addon add hydrooj-countdown
+```
+
+2. 重启 HydroOJ。
+
+3. 进入 HydroOJ 控制面板 - hydrooj - 主页，将下方配置信息粘贴到适当位置。
 
 ```
   countdown:
-    calendar_url: "https://www.noi.cn/upload/resources/image/2022/01/11/183119.jpg"
+    title: 咕咕倒计时
     max_dates: 3
     dates:
       - name: NOI Online 2022

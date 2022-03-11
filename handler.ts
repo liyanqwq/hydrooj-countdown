@@ -1,36 +1,25 @@
-import { Route, Handler } from 'hydrooj/src/service/server';
-import { PERM } from 'hydrooj/src/model/builtin';
-import system from 'hydrooj/src/model/system';
-import { NotFoundError, PermissionError } from 'hydrooj/src/error';
-const yaml = require('js-yaml');
-const moment = require('moment');
-class CountdownGetDateHandler extends Handler {
-    async get() {
-        var hdoc = yaml.load(system.get('hydrooj.homepage'));
-        var content = new Array();
-        var dateToday = moment().format("YYYY-MM-DD");
-        var dates = new Array(hdoc[1]['countdown']['dates']);
-        dates = dates[0];
-        console.log(dates);
-        dates.forEach(function(val,ind){
-            if(content.length < hdoc[1]['countdown']['max_dates']){
-                if(moment(val.date).isSameOrAfter(dateToday)){
-                    // console.log(val);
-                    var diffTime = moment(val.date).diff(moment(), 'days');
-                    // console.log(diffTime);
-                    content.push({
-                        name: val.name,
-                        diff: diffTime
-                    })
-                }
-            }
-        });
-        this.response.body = content;
-    }
-}
+import { HomeHandler } from 'hydrooj/src/handler/home'
+import moment from 'moment';
 
-async function apply() {
-    Route('countdown_getdate', '/countdown/getdate', CountdownGetDateHandler);
+async function getCountdown(payload) {
+    var content = new Array();
+	var dateToday = moment().format("YYYY-MM-DD");
+	var dates = new Array(payload.dates);
+	dates = dates[0];
+	dates.forEach(function(val, ind) {
+		if (content.length < payload['max_dates']) {
+			if (moment(val.date).isSameOrAfter(dateToday)) {
+				var diffTime = moment(val.date).diff(moment(), 'days');
+				content.push({
+					name: val.name,
+					diff: diffTime
+				})
+			}
+		}
+	});
+	payload.dates = content;
+    return payload;
 }
-
-global.Hydro.handler.countdown = apply;
+HomeHandler.prototype.getCountdown = async (domainId, payload) => {
+    return await getCountdown(payload);
+}

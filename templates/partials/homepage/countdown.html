@@ -1,10 +1,13 @@
 <div class="section side nojs--hide" style="user-select: none;">
   <div class="section__header">
-    <h1 class="section__title">咕咕倒计时 {% if payload.calendar_url %}<a id="gen-noi" class="gen-btn" style="font-size: 0.88rem;text-decoration:none!important;" href="{{ payload.calendar_url }}">NOI 日历</a>{% endif %}</h1>
+    <h1 class="section__title" id="countdown_title">{% if payload.title %}{{payload.title}}{% else %}咕咕倒计时{% endif %}</h1>
   </div>
+  {{payload.test}}
   {% if payload.dates %}
-  <div class="section__body typo" style="color:#444;line-height:2;" id="countdowns">
-        加载中...
+  <div class="section__body typo" style="color:#444;line-height:2;user-select:text;" id="countdowns">
+        {% for date in payload.dates %}
+        距 {{date.name}} 还有 {{date.diff}} 天<br />
+        {% endfor %}
   </div>
   {% else %}
   <div class="section__body typo" style="color:#444;line-height:2;" id="countdowns">
@@ -12,34 +15,10 @@
   </div>
   {% endif %}
 </div>
-<style>
-    .lum-lightbox.lum-open {
-    z-index: 1145141919810;
-}
-</style>
-<link href="https://cdn.jsdelivr.net/gh/imgix/luminous@2.3.5/dist/luminous-basic.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/gh/imgix/luminous@2.3.5/dist/luminous.min.js"></script>
 <script>
     function loadCountdown(){
-        var $ = window.node_modules.$;
-        $.get('/countdown/getdate',function(res){
-            $("#countdowns").html('');
-            res.forEach(function(val){
-                $("#countdowns").append(`距 ${val.name} 还有 ${val.diff} 天<br />`); 
-            });
-        });
         console.log('Powered by hydrooj-countdown https://github.com/liyanqwq/hydrooj-countdown');
-        var options_noi = {
-              openTrigger: "click",
-              closeTrigger: "click",
-              closeWithEscape: true,
-              closeOnScroll: true,
-              appendToNode: document.body,
-              appendToSelector: null,
-              onClose: null,
-              includeImgixJSClass: false,
-        };
-        new Luminous(document.querySelector("#gen-noi"), options_noi);
+        window.dispatchEvent(new Event('countdown-finish'));
     }
-    window.addEventListener('load', loadCountdown, false);
+    window.addEventListener('load', loadCountdown, {once : true});
 </script>
