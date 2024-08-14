@@ -4,13 +4,13 @@
   </div>
   {{payload.test}}
   {% if payload.dates %}
-  <div class="section__body typo" style="color:#444;line-height:2;user-select:text;" id="countdowns">
+  <div class="section__body typo" style="line-height:2;user-select:text;" id="countdowns">
         {% for date in payload.dates %}
         距 {{date.name}} 还有 {{date.diff}} 天<br />
         {% endfor %}
   </div>
   {% else %}
-  <div class="section__body typo" style="color:#444;line-height:2;" id="countdowns">
+  <div class="section__body typo" style="line-height:2;" id="countdowns">
         请设置日历！
   </div>
   {% endif %}
