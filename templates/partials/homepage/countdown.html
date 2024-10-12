@@ -1,24 +1,10 @@
-<div class="section side nojs--hide" style="user-select: none;">
+<div class="section side nojs--hide">
   <div class="section__header">
-    <h1 class="section__title" id="countdown_title">{% if payload.title %}{{payload.title}}{% else %}咕咕倒计时{% endif %}</h1>
+    <h1 class="section__title">{{ _(payload.title) }}</h1>
   </div>
-  {{payload.test}}
-  {% if payload.dates %}
-  <div class="section__body typo" style="color:#444;line-height:2;user-select:text;" id="countdowns">
-        {% for date in payload.dates %}
-        距 {{date.name}} 还有 {{date.diff}} 天<br />
-        {% endfor %}
+  <div class="section__body typo">
+    {%- for item in payload.dates -%}
+      <p>{{ _('There are {0} days left until {1}.').format(item.remaining, item.name) }}</p>
+    {%- endfor -%}
   </div>
-  {% else %}
-  <div class="section__body typo" style="color:#444;line-height:2;" id="countdowns">
-        请设置日历！
-  </div>
-  {% endif %}
 </div>
-<script>
-    function loadCountdown(){
-        console.log('Powered by hydrooj-countdown https://github.com/liyanqwq/hydrooj-countdown');
-        window.dispatchEvent(new Event('countdown-finish'));
-    }
-    window.addEventListener('load', loadCountdown, {once : true});
-</script>
